@@ -14,7 +14,6 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const { data: session } = useSession();
 
   const loginUser = async (e: React.FormEvent) => {
@@ -27,7 +26,7 @@ const LoginPage = () => {
         password,
       });
       if (res?.ok) {
-        router.push(`/dashboard/${session?.user?.role ?? "user"}`);
+        router.push(`/dashboard`);
       } else {
         toast.error(res?.error ?? "An error occurred");
       }
@@ -39,18 +38,19 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-md rounded-2xl bg-white sm:p-8 space-y-8">
+    <div className="flex h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8" style={{ backgroundColor: "#f0f4f8" }}>
+      <div className="mx-auto w-full max-w-md rounded-2xl bg-white sm:p-8 space-y-8" style={{ backgroundColor: "#ffffff" }}>
         <div className="text-center">
-          <h2 className="sm:text-3xl text-2xl font-bold tracking-tight">
+          <h2 className="sm:text-3xl text-2xl font-bold tracking-tight" style={{ color: "#333333" }}>
             Sign in to your account
           </h2>
-          <p className="mt-4 max-sm:text-sm text-muted-foreground">
+          <p className="mt-4 max-sm:text-sm text-muted-foreground" style={{ color: "#666666" }}>
             Don't have an account?{" "}
             <Link
               href="/register"
               className="font-medium text-primary hover:underline"
               prefetch={false}
+              style={{ color: "#007bff" }}
             >
               Register
             </Link>
@@ -58,7 +58,7 @@ const LoginPage = () => {
         </div>
         <form className="space-y-6" onSubmit={loginUser}>
           <div>
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email" style={{ color: "#333333" }}>Email address</Label>
             <div className="mt-1">
               <Input
                 id="email"
@@ -69,11 +69,12 @@ const LoginPage = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full"
+                style={{ borderColor: "#cccccc" }}
               />
             </div>
           </div>
           <div>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" style={{ color: "#333333" }}>Password</Label>
             <div className="mt-1">
               <Input
                 id="password"
@@ -84,11 +85,12 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full"
+                style={{ borderColor: "#cccccc" }}
               />
             </div>
           </div>
           <div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" style={{ backgroundColor: "#007bff", color: "#ffffff" }}>
               {loading ? (
                 <LoaderCircleIcon className="animate-spin" />
               ) : (
@@ -96,21 +98,6 @@ const LoginPage = () => {
               )}
             </Button>
           </div>
-          <Button
-            disabled={googleLoading}
-            variant="outline"
-            className="w-full"
-            onClick={async () => {
-              setGoogleLoading(true);
-              await signIn("google", {
-                callbackUrl: `/dashboard`,
-              });
-              setGoogleLoading(false);
-            }}
-          >
-            {googleLoading && <Loader2 className="animate-spin mr-2" />} Sign in
-            with Google
-          </Button>
         </form>
       </div>
     </div>
